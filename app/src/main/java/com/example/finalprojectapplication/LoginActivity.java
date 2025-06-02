@@ -1,5 +1,6 @@
 package com.example.finalprojectapplication;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -86,8 +87,9 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
         sp.edit().putBoolean("is_login", true).putString("phone", phone).apply();
 
-        //跳转到主页面(即首页)
-        //startActivity(new Intent(this,HomePageActivity.class));
+        //跳转到主页
+        Intent intent = new Intent(this,HomePageActivity.class);
+        startActivity(intent);
         finish();
     }
 }
