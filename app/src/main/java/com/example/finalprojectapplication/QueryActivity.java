@@ -13,12 +13,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class QueryActivity extends AppCompatActivity {
     private EditText etAccount;
     private Button btnQuery;
     private TextView tvResult;
+    private static Map<String, String> billDataMap = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,21 +57,28 @@ public class QueryActivity extends AppCompatActivity {
         tvResult.setText("查询中. . .");
         btnQuery.setEnabled(false); //禁用按钮防止重复点击
 
-        //生成随机电费数据
-        generateAndShowBillData(account);
-
+        //检查该户号是否已经存储过电费数据了
+        if(billDataMap.containsKey(account)){
+            tvResult.setText(billDataMap.get(account));
+        }
+        else{
+            //生成随机电费数据
+            String billData = generateAndShowBillData(account);
+            billDataMap.put(account,billData);
+            tvResult.setText(billData);
+        }
         btnQuery.setEnabled(true); //重新启用按钮
     }
 
     //生成并显示电费数据
-    private void generateAndShowBillData(String account){
+    private String generateAndShowBillData(String account){
         double currentBill = 50 + Math.random() * 300;  //50~350元
         int usage = 100 + new Random().nextInt(300); //100！400度
-        String dueDate = "2025-06-09"; //随机固定日期
+        String dueDate = "2025-06-30"; //随机固定日期
         String result = "户号：" +account +"\n" +
                 "当前电费：" + String.format("%.2f", currentBill) + "元\n" +
                 "本月用电量：" + usage + "度\n" +
                 "缴费截止日期：" + dueDate;
-        tvResult.setText(result);
+        return result;
     }
 }
