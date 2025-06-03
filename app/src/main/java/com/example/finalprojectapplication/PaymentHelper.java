@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class PaymentHelper extends SQLiteOpenHelper {
-    private static final int DATEBASE_VERSION = 1;
+    private static final int DATEBASE_VERSION = 2;
     private static final String DATEBASE_NAME = "electricity.db";
 
     // 缴费记录表
@@ -80,4 +80,3 @@ public class PaymentHelper extends SQLiteOpenHelper {
     }
 
 }
-
