@@ -5,14 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="30dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@android:color/white">
 
     <ImageView
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
         android:layout_marginBottom="80dp"
-        android:src="@drawable/electricity_icon"/>
+        android:src="@drawable/electricity_icon"
+        android:scaleType="centerInside"/>
 
     <Button
         android:id="@+id/btn_payment"
@@ -21,7 +23,9 @@
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:text="@string/label_btn_pay"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:id="@+id/btn_query"
@@ -30,7 +34,9 @@
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:text="@string/label_btn_query"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white"/>
 
     <Button
         android:id="@+id/btn_records"
@@ -38,5 +44,7 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:text="@string/label_jiaofei"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@android:color/white"/>
 </LinearLayout>
