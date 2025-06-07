@@ -117,10 +117,9 @@ public class PaymentActivity extends AppCompatActivity {
                 //保存缴费记录
                 long result = paymentHelper.addRecord(account,amount);
                 if(result != -1){
-                    double currentBill = PaymentRecord.getElectricityBill();
-                    PaymentRecord.setElectricityBill(currentBill - amount);
                     Toast.makeText(PaymentActivity.this, "缴费成功！", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
+                    // 更新电费数据
+                    QueryActivity.updateBillData(account, amount);
                     finish();
                 }
                 else{

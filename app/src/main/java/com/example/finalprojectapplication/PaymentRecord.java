@@ -6,17 +6,6 @@ public class PaymentRecord {
     private double amount;
     private String date;
 
-    // 添加了一个静态变量来存储全局电费数据
-    private static double electricityBill = 0;
-
-    public static void setElectricityBill(double bill) {
-        electricityBill = bill;
-    }
-
-    public static double getElectricityBill() {
-        return electricityBill;
-    }
-
     public int getId() {
         return id;
     }
