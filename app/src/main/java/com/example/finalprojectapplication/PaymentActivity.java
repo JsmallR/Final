@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -116,7 +117,10 @@ public class PaymentActivity extends AppCompatActivity {
                 //保存缴费记录
                 long result = paymentHelper.addRecord(account,amount);
                 if(result != -1){
+                    double currentBill = PaymentRecord.getElectricityBill();
+                    PaymentRecord.setElectricityBill(currentBill - amount);
                     Toast.makeText(PaymentActivity.this, "缴费成功！", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
                     finish();
                 }
                 else{

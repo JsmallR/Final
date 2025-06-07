@@ -21,7 +21,10 @@ public class QueryActivity extends AppCompatActivity {
     private EditText etAccount;
     private Button btnQuery;
     private TextView tvResult;
-    private static Map<String, String> billDataMap = new HashMap<>();
+    private static Map<String, Double> billDataMap = new HashMap<>();
+    private PaymentHelper paymentHelper;
+    private String currentAccount = "";
+
 
 
     @Override
@@ -37,6 +40,7 @@ public class QueryActivity extends AppCompatActivity {
         etAccount = findViewById(R.id.et_account);
         btnQuery = findViewById(R.id.btn_query);
         tvResult = findViewById(R.id.tv_result);
+        paymentHelper = new PaymentHelper(this);
 
         btnQuery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,38 +51,51 @@ public class QueryActivity extends AppCompatActivity {
     }
 
     //查询电费
-    private void queryElectricityBill(){
+    private void queryElectricityBill() {
         String account = etAccount.getText().toString().trim();
         //检查是否输入户号
-        if(account.isEmpty()){
-            Toast.makeText(this,"请输入户号",Toast.LENGTH_SHORT).show();
+        if (account.isEmpty()) {
+            Toast.makeText(this, "请输入户号", Toast.LENGTH_SHORT).show();
+            return;
         }
+        currentAccount = account;
 
         tvResult.setText("查询中. . .");
         btnQuery.setEnabled(false); //禁用按钮防止重复点击
 
         //检查该户号是否已经存储过电费数据了
-        if(billDataMap.containsKey(account)){
-            tvResult.setText(billDataMap.get(account));
+        if (billDataMap.containsKey(account)) {
+            double currentBill = billDataMap.get(account);
+            displayBillData(account, currentBill);
         }
-        else{
+        else {
             //生成随机电费数据
-            String billData = generateAndShowBillData(account);
-            billDataMap.put(account,billData);
-            tvResult.setText(billData);
+            double currentBill = 50 + Math.random() * 500;  //50~550元
+            billDataMap.put(account, currentBill);
+            PaymentRecord.setElectricityBill(currentBill);
+            displayBillData(account, currentBill);
         }
         btnQuery.setEnabled(true); //重新启用按钮
     }
 
     //生成并显示电费数据
-    private String generateAndShowBillData(String account){
-        double currentBill = 50 + Math.random() * 300;  //50~350元
-        int usage = 100 + new Random().nextInt(300); //100！400度
+    private void displayBillData(String account,double bill){
+        int usage = 100 + new Random().nextInt(300); //100~400度
         String dueDate = "2025-06-30"; //随机固定日期
         String result = "户号：" +account +"\n" +
-                "当前电费：" + String.format("%.2f", currentBill) + "元\n" +
+                "当前电费：" + String.format("%.2f", bill) + "元\n" +
                 "本月用电量：" + usage + "度\n" +
                 "缴费截止日期：" + dueDate;
-        return result;
+        tvResult.setText(result);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        // 检查是否需要更新电费数据
+        if (!currentAccount.isEmpty() && billDataMap.containsKey(currentAccount)) {
+            double currentBill = PaymentRecord.getElectricityBill();
+            billDataMap.put(currentAccount, currentBill);
+            displayBillData(currentAccount, currentBill);
+        }
     }
 }

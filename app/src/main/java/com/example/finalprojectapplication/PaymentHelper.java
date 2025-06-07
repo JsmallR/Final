@@ -79,4 +79,19 @@ public class PaymentHelper extends SQLiteOpenHelper {
         return recordList;
     }
 
+    // 获取某个用户的总缴费金额
+    @SuppressLint("Range")
+    public double getTotalPaymentAmount(String account) {
+        double totalAmount = 0;
+        String selectQuery = "SELECT SUM(" + COLUMN_AMOUNT + ") FROM " + TABLE_RECORDS + " WHERE " + COLUMN_ACCOUNT + " = ?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{account});
+
+        if (cursor.moveToFirst()) {
+            totalAmount = cursor.getDouble(0);
+        }
+        cursor.close();
+        return totalAmount;
+    }
+
 }
