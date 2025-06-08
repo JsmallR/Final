@@ -24,8 +24,6 @@ public class QueryActivity extends AppCompatActivity {
     private static Map<String, String> billDataMap = new HashMap<>();
     private PaymentHelper paymentHelper;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
